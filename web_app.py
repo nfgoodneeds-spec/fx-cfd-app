@@ -48,7 +48,8 @@ if st.button("グラフを表示する", type="primary"):
                 
                 if not hist.empty:
                     if hist.index.tz is not None:
-                        hist.index = hist.index.tz_localize(None)
+                        # 修正箇所: 日本時間 (Asia/Tokyo) に変換してからタイムゾーン情報を消去
+                        hist.index = hist.index.tz_convert('Asia/Tokyo').tz_localize(None)
                     df[name] = hist['Close']
             except Exception as e:
                 # 取得に失敗した場合は画面上部に警告文を表示
